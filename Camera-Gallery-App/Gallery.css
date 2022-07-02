@@ -1,0 +1,74 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.back {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  background-color: black;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 4rem;
+  right: 5rem;
+}
+.back:hover {
+  cursor: pointer;
+}
+.gallery-cont {
+  background-color: #F8F8F9;
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.media-cont {
+  height: 18rem;
+  width: 18rem;
+  border: 10px solid #F8F8F9;
+  margin: 2rem;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 28px;
+}
+.media {
+  height:calc(100% - 2rem - 3rem);
+}
+.media > * {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+.action-btn {
+  height: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.action-btn:hover {
+  cursor: pointer;
+}
+.download {
+  color:#2A92E7;
+  border-radius: 3em;
+ box-shadow: 0 2px 3px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+ cursor: pointer;
+ text-align: center;
+ margin: 0.5rem;
+}
+.delete {
+ color: #ED5E68;
+ border-radius: 3em;
+ box-shadow: 0 2px 3px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+ cursor: pointer;
+ text-align: center;
+ margin: 0.5rem;
+}
