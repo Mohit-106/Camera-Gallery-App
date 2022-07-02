@@ -6,59 +6,46 @@ let captureBtn = document.querySelector(".capture-btn");
 
 let recorder;
 let recordFlag = false;
-let chunk = []; // to get recordered data
+let chunk = [];
 
-//Various Browser api to record video
 let constraints = {
   video: true,
   audio: true,
 };
 
-//navigator->global object which provides browser information
-//mediaDevices->it is a interface that connect hardware like camera mic with browser
-//getUserMedia->it ask for user permission to on camera and audio devices
-navigator.mediaDevices
-  .getUserMedia(constraints) //promise
-  .then((stream) => {
-    //video opened and start displayig
-    video.srcObject = stream;
-    recorder = new MediaRecorder(stream);
-    recorder.addEventListener("start", (e) => {
-      chunk = []; // creating new chunk every time for new section of recording
-    });
-    //pushing data chunks to array
-    recorder.addEventListener("dataavailable", (e) => {
-      chunk.push(e.data);
-    });
-    recorder.addEventListener("stop", (e) => {
-      //converting chunk data to video
-      let blob = new Blob(chunk, { type: "video/mp4" });
-      let videoURL = URL.createObjectURL(blob);
-      if (db) {
-        let Videoid = shortid();
-        let dbTransaction = db.transaction("video", "readwrite");
-        let videoStore = dbTransaction.objectStore("video");
-        let videoEntry = {
-          id: `video-${Videoid}`, //keyPath name and this obj name should be same
-          blobData: blob,
-        };
-        videoStore.add(videoEntry); //adding in store
-      }
-      // let a = document.createElement("a");
-      // a.href = videoURL;
-      // a.download = "Video.mp4";
-      // a.click();
-    });
+navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+  video.srcObject = stream;
+  recorder = new MediaRecorder(stream);
+  recorder.addEventListener("start", (e) => {
+    chunk = [];
   });
 
-  
+  recorder.addEventListener("dataavailable", (e) => {
+    chunk.push(e.data);
+  });
+  recorder.addEventListener("stop", (e) => {
+    let blob = new Blob(chunk, { type: "video/mp4" });
+    let videoURL = URL.createObjectURL(blob);
+    if (db) {
+      let Videoid = shortid();
+      let dbTransaction = db.transaction("video", "readwrite");
+      let videoStore = dbTransaction.objectStore("video");
+      let videoEntry = {
+        id: `video-${Videoid}`,
+        blobData: blob,
+      };
+      videoStore.add(videoEntry);
+    }
+  });
+});
+
 recordBtnCont.addEventListener("click", (e) => {
   if (!recorder) return;
   recordFlag = !recordFlag;
   if (recordFlag) {
     recorder.start();
     startTimer();
-    //adding class to perform animation
+
     recordBtn.classList.add("scale-record");
   } else {
     recorder.stop();
@@ -67,9 +54,8 @@ recordBtnCont.addEventListener("click", (e) => {
   }
 });
 
-//timer Section
 let timerID;
-let counter = 0; // Represents total seconds
+let counter = 0;
 let timer = document.querySelector(".timer");
 function startTimer() {
   timer.style.display = "block";
@@ -77,10 +63,10 @@ function startTimer() {
     let totalSeconds = counter;
 
     let hours = Number.parseInt(totalSeconds / 3600);
-    totalSeconds = totalSeconds % 3600; // remaining value
+    totalSeconds = totalSeconds % 3600;
 
     let minutes = Number.parseInt(totalSeconds / 60);
-    totalSeconds = totalSeconds % 60; // remaining value
+    totalSeconds = totalSeconds % 60;
 
     let seconds = totalSeconds;
 
