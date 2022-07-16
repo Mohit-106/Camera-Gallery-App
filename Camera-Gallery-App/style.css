@@ -76,9 +76,9 @@ video {
 
 .timer-cont {
   position: absolute;
-  bottom: 5rem;
-  left: 4.4rem;
-  color: whitesmoke;
+  top: 4rem;
+  right: 5rem;
+  color: #ED5E68;
   font-size: 0.8rem;
 }
 .timer {
@@ -142,4 +142,10 @@ video {
 }
 .gallery:hover {
   cursor: pointer;
+}
+
+.action-cont :hover{
+
+cursor: pointer;
+
 }
